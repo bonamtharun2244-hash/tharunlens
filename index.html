@@ -1204,143 +1204,305 @@
 
 
 
-<!-- =====================================================
-     BOOKING FORM
-===================================================== -->
+/* =====================================================
+   LARGE BOOKING SECTION
+===================================================== */
 
-<section class="booking section" id="booking">
+.booking {
+    padding: 120px 7%;
+}
 
-
-  <div class="section-label reveal">
-    06 / BOOK A SHOOT
-  </div>
-
-
-  <div class="booking-grid">
-
-
-    <div class="booking-info reveal">
-
-      <p class="eyebrow">
-        READY TO CREATE?
-      </p>
+.booking-grid {
+    max-width: 1200px;
+    margin: 60px auto 0;
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 80px;
+    align-items: start;
+}
 
 
-      <h2>
-        Let's plan your<br>
-        next <em>shoot.</em>
-      </h2>
+/* BOOKING INFORMATION */
+
+.booking-info {
+    padding-top: 20px;
+}
+
+.booking-info h2 {
+    font-size: clamp(48px, 5vw, 78px);
+    line-height: 1.05;
+    margin: 20px 0 30px;
+}
+
+.booking-info p {
+    font-size: 20px;
+    line-height: 1.7;
+    max-width: 520px;
+}
+
+.booking-contact {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.booking-contact a {
+    font-size: 19px;
+    color: inherit;
+    text-decoration: none;
+}
 
 
-      <p>
-        Fill in the details and send your enquiry
-        directly through WhatsApp.
-      </p>
+/* =====================================================
+   BOOKING FORM
+===================================================== */
+
+.booking-form {
+    width: 100%;
+    max-width: 650px;
+    padding: 40px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.03);
+}
 
 
-      <div class="booking-contact">
+/* LABEL */
 
-        <a href="tel:+919121497402">
-          📞 +91 91214 97402
-        </a>
-
-
-        <a href="mailto:bonamtharun2244@gmail.com">
-          ✉ bonamtharun2244@gmail.com
-        </a>
-
-      </div>
-
-    </div>
+.booking-form label {
+    display: block;
+    margin: 0 0 10px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
 
 
+/* INPUTS */
 
-    <form
-      class="booking-form reveal"
-      id="bookingForm">
+.booking-form input,
+.booking-form select,
+.booking-form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 18px 20px;
+    margin-bottom: 25px;
 
+    background: #111;
+    color: #fff;
 
-      <label for="name">
-        Your Name
-      </label>
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 4px;
 
-      <input
-        type="text"
-        id="name"
-        name="name"
-        placeholder="Enter your name"
-        required>
+    font-family: inherit;
+    font-size: 17px;
 
+    outline: none;
 
-      <label for="phone">
-        Phone Number
-      </label>
-
-      <input
-        type="tel"
-        id="phone"
-        name="phone"
-        placeholder="Enter your phone number"
-        required>
+    transition: 0.3s ease;
+}
 
 
-      <label for="service">
-        Photography Type
-      </label>
+/* INPUT FOCUS */
 
-      <select
-        id="service"
-        name="service"
-        required>
-
-        <option value="">
-          Select a service
-        </option>
-
-        <option value="Portrait Photography">
-          Portrait Photography
-        </option>
-
-        <option value="Event Photography">
-          Event Photography
-        </option>
-
-        <option value="Outdoor Photography">
-          Outdoor Photography
-        </option>
-
-        <option value="Reels and Short Videos">
-          Reels / Short Videos
-        </option>
-
-        <option value="Wedding Photography">
-          Wedding Photography
-        </option>
-
-        <option value="Custom Project">
-          Custom Project
-        </option>
-
-      </select>
+.booking-form input:focus,
+.booking-form select:focus,
+.booking-form textarea:focus {
+    border-color: #fff;
+    background: #151515;
+}
 
 
- 
-        </div>
+/* PLACEHOLDER */
 
-      </div>
-
-      <div class="hero-meta">
-        <span>THARUN LENS</span>
-        <span>PHOTOGRAPHY / 2026</span>
-      </div>
-
-      <a class="scroll-cue" href="#about" aria-label="Scroll to about">
-        SCROLL <span>↓</span>
-      </a>
-
-    </section>
+.booking-form input::placeholder,
+.booking-form textarea::placeholder {
+    color: #999;
+}
 
 
+/* SELECT */
+
+.booking-form select {
+    cursor: pointer;
+}
+
+
+/* TEXTAREA */
+
+.booking-form textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+
+/* =====================================================
+   SUBMIT BUTTON
+===================================================== */
+
+.submit-button {
+    width: 100%;
+    padding: 20px 25px;
+
+    background: #fff;
+    color: #000;
+
+    border: none;
+    border-radius: 4px;
+
+    font-family: inherit;
+    font-size: 17px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.3s ease,
+        background 0.3s ease;
+}
+
+.submit-button:hover {
+    transform: translateY(-3px);
+    background: #e8e8e8;
+}
+
+
+/* =====================================================
+   CONTACT INFORMATION
+===================================================== */
+
+.contact-main {
+    display: block;
+    margin: 15px 0;
+
+    font-size: 22px;
+    font-weight: 600;
+
+    color: inherit;
+    text-decoration: none;
+
+    transition: opacity 0.3s ease;
+}
+
+.contact-main:hover {
+    opacity: 0.65;
+}
+
+
+/* =====================================================
+   LARGE CONTACT BUTTONS
+===================================================== */
+
+.contact-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 35px;
+}
+
+.contact-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 180px;
+
+    padding: 16px 24px;
+
+    border: 1px solid rgba(255,255,255,0.3);
+
+    color: #fff;
+    text-decoration: none;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    transition: 0.3s ease;
+}
+
+.contact-button:hover {
+    background: #fff;
+    color: #000;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 800px) {
+
+    .booking {
+        padding: 80px 6%;
+    }
+
+    .booking-grid {
+        grid-template-columns: 1fr;
+        gap: 50px;
+        margin-top: 40px;
+    }
+
+    .booking-info h2 {
+        font-size: 48px;
+    }
+
+    .booking-form {
+        max-width: 100%;
+        padding: 25px;
+        box-sizing: border-box;
+    }
+
+    .booking-form input,
+    .booking-form select,
+    .booking-form textarea {
+        font-size: 16px;
+        padding: 16px;
+    }
+
+    .submit-button {
+        font-size: 16px;
+        padding: 18px;
+    }
+
+}
+
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 480px) {
+
+    .booking {
+        padding: 70px 5%;
+    }
+
+    .booking-info h2 {
+        font-size: 40px;
+    }
+
+    .booking-info p {
+        font-size: 17px;
+    }
+
+    .booking-form {
+        padding: 20px;
+    }
+
+    .booking-form label {
+        font-size: 15px;
+    }
+
+    .contact-actions {
+        flex-direction: column;
+    }
+
+    .contact-button {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+}
     <!-- ABOUT -->
     <section class="about section" id="about">
 
