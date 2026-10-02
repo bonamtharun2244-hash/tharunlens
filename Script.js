@@ -1,495 +1,399 @@
-document.addEventListener("DOMContentLoaded", () => {
+/* =========================================
+   THARUN LENS
+   Main JavaScript
+========================================= */
 
-  /* ================================
-     PAGE LOADER
-  ================================= */
-  const loader = document.getElementById("loader");
+"use strict";
 
-  setTimeout(() => {
-    if (loader) {
-      loader.classList.add("hide");
+
+/* =========================================
+   LOADING SCREEN
+========================================= */
+
+function hideLoadingScreen() {
+
+    const loadingScreen =
+        document.getElementById("loading-screen");
+
+    if (!loadingScreen) {
+        return;
     }
 
-    document.body.classList.remove("lock");
-  }, 900);
+    loadingScreen.classList.add("hide");
+
+}
 
 
-  /* ================================
-     FOOTER YEAR
-  ================================= */
-  const year = document.getElementById("year");
+/*
+   Hide the loading screen after the page
+   is ready.
+*/
 
-  if (year) {
-    year.textContent = new Date().getFullYear();
-  }
+window.addEventListener("load", function () {
 
+    setTimeout(function () {
 
-  /* ================================
-     MOBILE MENU
-  ================================= */
-  const menuToggle = document.getElementById("menuToggle");
-  const mainNav = document.getElementById("mainNav");
+        hideLoadingScreen();
 
-  if (menuToggle && mainNav) {
+    }, 700);
 
-    menuToggle.addEventListener("click", () => {
-
-      const isOpen = mainNav.classList.toggle("open");
-
-      menuToggle.setAttribute(
-        "aria-expanded",
-        isOpen ? "true" : "false"
-      );
-
-    });
+});
 
 
-    // Close menu after clicking a link
-    const navLinks = mainNav.querySelectorAll("a");
+/*
+   Safety fallback.
 
-    navLinks.forEach(link => {
+   Even if an image or another resource
+   takes too long to load, the website
+   will NOT remain stuck on the splash screen.
+*/
 
-      link.addEventListener("click", () => {
+setTimeout(function () {
 
-        mainNav.classList.remove("open");
+    hideLoadingScreen();
 
-        menuToggle.setAttribute(
-          "aria-expanded",
-          "false"
-        );
-
-      });
-
-    });
-
-  }
+}, 3000);
 
 
-  /* ================================
-     NAVBAR SCROLL EFFECT
-  ================================= */
-  const nav = document.getElementById("nav");
 
-  window.addEventListener("scroll", () => {
+/* =========================================
+   MOBILE MENU
+========================================= */
 
-    if (!nav) return;
-
-    if (window.scrollY > 40) {
-      nav.classList.add("scrolled");
-    } else {
-      nav.classList.remove("scrolled");
-    }
-
-  });
+document.addEventListener("DOMContentLoaded", function () {
 
 
-  /* ================================
-     SCROLL REVEAL ANIMATION
-  ================================= */
-  const revealElements =
-    document.querySelectorAll(".reveal");
+    const menuButton =
+        document.getElementById("menuButton");
 
-  if ("IntersectionObserver" in window) {
+    const navLinks =
+        document.getElementById("navLinks");
 
-    const observer = new IntersectionObserver(
-      (entries) => {
 
-        entries.forEach((entry) => {
+    if (menuButton && navLinks) {
 
-          if (entry.isIntersecting) {
+        menuButton.addEventListener("click", function () {
 
-            entry.target.classList.add("visible");
-
-            observer.unobserve(entry.target);
-
-          }
+            navLinks.classList.toggle("active");
 
         });
 
-      },
-      {
-        threshold: 0.12
-      }
-    );
+
+        /*
+           Close menu after clicking a link.
+        */
+
+        const links =
+            navLinks.querySelectorAll("a");
 
 
-    revealElements.forEach((element) => {
+        links.forEach(function (link) {
 
-      observer.observe(element);
+            link.addEventListener("click", function () {
 
-    });
+                navLinks.classList.remove("active");
 
-  } else {
+            });
 
-    revealElements.forEach((element) => {
+        });
 
-      element.classList.add("visible");
-
-    });
-
-  }
+    }
 
 
-  /* ================================
-     PHOTO GALLERY
-  ================================= */
+    /* =====================================
+       LIGHTBOX
+    ===================================== */
 
-  const galleryItems =
-    Array.from(document.querySelectorAll(".gallery-item"));
+    const galleryItems =
+        document.querySelectorAll(".gallery-item");
 
-  const lightbox =
-    document.getElementById("lightbox");
+    const lightbox =
+        document.getElementById("lightbox");
 
-  const lightboxImage =
-    document.getElementById("lightboxImage");
+    const lightboxImage =
+        document.getElementById("lightboxImage");
 
-  const lightboxNumber =
-    document.getElementById("lightboxNumber");
-
-  const lightboxTitle =
-    document.getElementById("lightboxTitle");
-
-  const lightboxCategory =
-    document.getElementById("lightboxCategory");
-
-  const closeLightbox =
-    document.getElementById("closeLightbox");
-
-  const prevImage =
-    document.getElementById("prevImage");
-
-  const nextImage =
-    document.getElementById("nextImage");
+    const closeLightbox =
+        document.getElementById("closeLightbox");
 
 
-  let currentIndex = 0;
+    if (
+        galleryItems.length > 0 &&
+        lightbox &&
+        lightboxImage
+    ) {
 
+        galleryItems.forEach(function (item) {
 
-  /* ================================
-     PHOTO FILE NAMES
-     
-     All photos are in repository root.
-  ================================= */
+            item.addEventListener("click", function () {
 
-  const photos = [
-    "peacock-sunset.jpg",
-    "clouds-mountain.jpg",
-    "sunset-reflection.jpg",
-    "sky-column.jpg",
-    "storm-sky.jpg",
-    "temple.jpg",
-    "sunset-mountains.jpg",
-    "lightning-night.jpg",
-    "birds-sky.jpg"
-  ];
+                const image =
+                    item.querySelector("img");
 
+                if (!image) {
+                    return;
+                }
 
-  /* ================================
-     SHOW PHOTO
-  ================================= */
+                lightboxImage.src =
+                    image.src;
 
-  function showImage(index) {
+                lightboxImage.alt =
+                    image.alt || "Portfolio image";
 
-    if (!galleryItems.length) return;
+                lightbox.classList.add("show");
 
-    currentIndex =
-      (index + galleryItems.length) %
-      galleryItems.length;
+                document.body.style.overflow =
+                    "hidden";
 
+            });
 
-    const item =
-      galleryItems[currentIndex];
+        });
+
+    }
 
 
     /*
-      Get image directly from data-image.
-      If data-image is missing, use the
-      photo filename from the photos array.
+       Close lightbox
     */
 
-    let imagePath =
-      item.dataset.image;
+    if (closeLightbox && lightbox) {
 
-
-    if (!imagePath) {
-
-      imagePath =
-        photos[currentIndex];
+        closeLightbox.addEventListener(
+            "click",
+            closeImage
+        );
 
     }
 
 
-    // Remove incorrect "images/" path if present
-    imagePath =
-      imagePath.replace(/^images\//, "");
-
-
-    /* Display image */
-
-    if (lightboxImage) {
-
-      lightboxImage.src = imagePath;
-
-      lightboxImage.alt =
-        item.querySelector("img")?.alt ||
-        item.dataset.title ||
-        "Tharun Lens Photography";
-
-    }
-
-
-    /* Photo number */
-
-    if (lightboxNumber) {
-
-      lightboxNumber.textContent =
-        String(currentIndex + 1).padStart(2, "0");
-
-    }
-
-
-    /* Photo title */
-
-    if (lightboxTitle) {
-
-      lightboxTitle.textContent =
-        item.dataset.title || "";
-
-    }
-
-
-    /* Photo category */
-
-    if (lightboxCategory) {
-
-      lightboxCategory.textContent =
-        item.dataset.category || "";
-
-    }
-
-
-    /* Open lightbox */
+    /*
+       Close by clicking outside image
+    */
 
     if (lightbox) {
 
-      lightbox.classList.add("open");
+        lightbox.addEventListener(
+            "click",
+            function (event) {
 
-      lightbox.setAttribute(
-        "aria-hidden",
-        "false"
-      );
+                if (event.target === lightbox) {
+
+                    closeImage();
+
+                }
+
+            }
+        );
 
     }
 
 
-    document.body.classList.add("lock");
+    /*
+       Close with ESC key
+    */
 
-  }
+    document.addEventListener(
+        "keydown",
+        function (event) {
 
+            if (event.key === "Escape") {
 
-  /* ================================
-     CLOSE LIGHTBOX
-  ================================= */
+                closeImage();
 
-  function closeBox() {
+            }
 
-    if (!lightbox) return;
-
-    lightbox.classList.remove("open");
-
-    lightbox.setAttribute(
-      "aria-hidden",
-      "true"
+        }
     );
 
-    document.body.classList.remove("lock");
 
-  }
+    function closeImage() {
 
+        if (!lightbox) {
+            return;
+        }
 
-  /* ================================
-     GALLERY CLICK
-  ================================= */
+        lightbox.classList.remove("show");
 
-  galleryItems.forEach((item, index) => {
+        document.body.style.overflow =
+            "";
 
-    item.addEventListener("click", () => {
+        if (lightboxImage) {
 
-      showImage(index);
-
-    });
-
-  });
-
-
-  /* ================================
-     CLOSE BUTTON
-  ================================= */
-
-  if (closeLightbox) {
-
-    closeLightbox.addEventListener(
-      "click",
-      closeBox
-    );
-
-  }
-
-
-  /* ================================
-     PREVIOUS PHOTO
-  ================================= */
-
-  if (prevImage) {
-
-    prevImage.addEventListener(
-      "click",
-      () => {
-
-        showImage(currentIndex - 1);
-
-      }
-    );
-
-  }
-
-
-  /* ================================
-     NEXT PHOTO
-  ================================= */
-
-  if (nextImage) {
-
-    nextImage.addEventListener(
-      "click",
-      () => {
-
-        showImage(currentIndex + 1);
-
-      }
-    );
-
-  }
-
-
-  /* ================================
-     CLICK OUTSIDE PHOTO
-  ================================= */
-
-  if (lightbox) {
-
-    lightbox.addEventListener(
-      "click",
-      (event) => {
-
-        if (event.target === lightbox) {
-
-          closeBox();
+            lightboxImage.src = "";
 
         }
 
-      }
-    );
-
-  }
-
-
-  /* ================================
-     KEYBOARD CONTROLS
-  ================================= */
-
-  document.addEventListener(
-    "keydown",
-    (event) => {
-
-      if (
-        !lightbox ||
-        !lightbox.classList.contains("open")
-      ) {
-        return;
-      }
-
-
-      // ESC = close
-      if (event.key === "Escape") {
-
-        closeBox();
-
-      }
-
-
-      // LEFT ARROW = previous
-      if (event.key === "ArrowLeft") {
-
-        showImage(currentIndex - 1);
-
-      }
-
-
-      // RIGHT ARROW = next
-      if (event.key === "ArrowRight") {
-
-        showImage(currentIndex + 1);
-
-      }
-
-    }
-  );
-
-
-  /* ================================
-     FIX BROKEN IMAGE PATHS
-     
-     This automatically changes:
-     
-     images/photo.jpg
-     
-     into:
-     
-     photo.jpg
-     
-     ================================= */
-
-  const allImages =
-    document.querySelectorAll("img");
-
-
-  allImages.forEach((img) => {
-
-    const src = img.getAttribute("src");
-
-    if (src && src.startsWith("images/")) {
-
-      img.src =
-        src.replace(/^images\//, "");
-
     }
 
-  });
 
 
-  /* ================================
-     FIX GALLERY DATA-IMAGE PATHS
-  ================================= */
+    /* =====================================
+       BOOKING FORM
+    ===================================== */
 
-  galleryItems.forEach((item) => {
+    const bookingForm =
+        document.getElementById("bookingForm");
 
-    const image =
-      item.getAttribute("data-image");
 
-    if (
-      image &&
-      image.startsWith("images/")
-    ) {
+    if (bookingForm) {
 
-      item.setAttribute(
-        "data-image",
-        image.replace(/^images\//, "")
-      );
+        bookingForm.addEventListener(
+            "submit",
+            function (event) {
+
+                event.preventDefault();
+
+
+                const name =
+                    document.getElementById("name").value.trim();
+
+                const phone =
+                    document.getElementById("phone").value.trim();
+
+                const email =
+                    document.getElementById("email").value.trim();
+
+                const service =
+                    document.getElementById("service").value;
+
+                const date =
+                    document.getElementById("date").value;
+
+                const message =
+                    document.getElementById("message").value.trim();
+
+
+                /*
+                   Basic validation
+                */
+
+                if (
+                    !name ||
+                    !phone ||
+                    !email ||
+                    !service ||
+                    !date ||
+                    !message
+                ) {
+
+                    alert(
+                        "Please fill in all booking details."
+                    );
+
+                    return;
+
+                }
+
+
+                /*
+                   Create WhatsApp booking message.
+                */
+
+                const whatsappMessage =
+                    "Hello Tharun Lens,%0A%0A" +
+
+                    "I would like to book a photography session.%0A%0A" +
+
+                    "Name: " +
+                    encodeURIComponent(name) +
+
+                    "%0APhone: " +
+                    encodeURIComponent(phone) +
+
+                    "%0AEmail: " +
+                    encodeURIComponent(email) +
+
+                    "%0AService: " +
+                    encodeURIComponent(service) +
+
+                    "%0ADate: " +
+                    encodeURIComponent(date) +
+
+                    "%0AMessage: " +
+                    encodeURIComponent(message);
+
+
+                /*
+                   WhatsApp number
+                   Replace this number if needed.
+                */
+
+                const whatsappNumber =
+                    "919121497402";
+
+
+                const whatsappURL =
+                    "https://wa.me/" +
+                    whatsappNumber +
+                    "?text=" +
+                    whatsappMessage;
+
+
+                /*
+                   Open WhatsApp
+                */
+
+                window.open(
+                    whatsappURL,
+                    "_blank"
+                );
+
+
+                /*
+                   Reset form
+                */
+
+                bookingForm.reset();
+
+            }
+        );
 
     }
 
-  });
+
+    /* =====================================
+       CURRENT YEAR
+    ===================================== */
+
+    const yearElements =
+        document.querySelectorAll("[data-year]");
+
+
+    yearElements.forEach(function (element) {
+
+        element.textContent =
+            new Date().getFullYear();
+
+    });
 
 
 });
+
+
+/* =========================================
+   ERROR PROTECTION
+========================================= */
+
+/*
+   If an unexpected JavaScript error occurs,
+   make sure the loading screen is removed.
+*/
+
+window.addEventListener(
+    "error",
+    function () {
+
+        hideLoadingScreen();
+
+    }
+);
+
+
+window.addEventListener(
+    "unhandledrejection",
+    function () {
+
+        hideLoadingScreen();
+
+    }
+);
